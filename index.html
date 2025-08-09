@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="mr">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>गावाचे ब्लॉग - संगमपूर</title>
+    <style>
+        /* Reset and base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 16px;
+            max-width: 480px;
+            margin-left: auto;
+            margin-right: auto;
+            font-family: 'Open Sans', Arial, sans-serif;
+            background-color: #f6efe6;
+            color: #2b2b2b;
+            scroll-behavior: smooth;
+        }
+
+        header {
+            background-color: #6b8a47;
+            padding: 16px;
+            text-align: center;
+            border-radius: 8px;
+            color: white;
+            font-family: 'Playfair Display', serif;
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        nav a {
+            color: #6b8a47;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+        nav a:hover {
+            text-decoration: underline;
+        }
+
+        section {
+            background-color: #fff7f0;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h2 {
+            font-family: 'Playfair Display', serif;
+            color: #4b3a30;
+            margin-bottom: 12px;
+            font-size: 22px;
+        }
+
+        p {
+            color: #85766a;
+            line-height: 1.6;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        img,
+        video {
+            width: 100%;
+            border-radius: 8px;
+            margin-top: 12px;
+        }
+
+        .posts-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 12px;
+        }
+
+        .post {
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .post:hover {
+            transform: scale(1.05);
+        }
+
+        .post .meta {
+            padding: 8px;
+        }
+
+        .post h3 {
+            margin: 6px 0 4px;
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #4b3a30;
+        }
+
+        .post p {
+            margin: 0;
+            font-size: 14px;
+            color: #85766a;
+        }
+
+        footer {
+            text-align: center;
+            font-size: 14px;
+            color: #85766a;
+            margin-top: 40px;
+            padding-bottom: 20px;
+        }
+
+        .friends-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-top: 12px;
+        }
+
+        .friend {
+            text-align: center;
+        }
+
+        .friend img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 50%;
+            border: 2px solid #6b8a47;
+            /* earthy green border */
+        }
+
+        .friend-name {
+            margin-top: 6px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #4b3a30;
+        }
+
+
+        #videos {
+            padding: 16px;
+        }
+
+        #videos h2 {
+            font-family: 'Playfair Display', serif;
+            color: #4b3a30;
+            margin-bottom: 12px;
+            font-size: 24px;
+        }
+
+        .video-wrapper {
+            position: relative;
+            margin-bottom: 24px;
+            max-width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        video {
+            width: 100%;
+            display: block;
+            border-radius: 12px;
+        }
+
+        .video-controls {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 12px;
+            pointer-events: none;
+        }
+
+        .video-controls button {
+            pointer-events: auto;
+            background: rgba(107, 138, 71, 0.8);
+            border: none;
+            color: white;
+            font-size: 18px;
+            padding: 10px 16px;
+            border-radius: 50%;
+            cursor: pointer;
+            user-select: none;
+            width: 48px;
+            height: 48px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .video-controls button:focus {
+            outline: 2px solid #6b8a47;
+        }
+
+
+        #memories {
+            padding: 20px;
+        }
+
+        #memories h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #4b3a30;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        #memories .memories-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        #memories figure {
+            margin: 0;
+        }
+
+        #memories img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            border-radius: 8px;
+            display: block;
+        }
+
+        #memories figcaption {
+            font-size: 14px;
+            color: #85766a;
+            margin-top: 6px;
+            text-align: center;
+        }
+
+        /* Responsive: on very small screens show 1 column */
+        @media (max-width: 400px) {
+            #memories .memories-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        #contact {
+            padding: 8px 12px;
+            background: #fff7f0;
+            border-radius: 6px;
+            max-width: 320px;
+            margin: 0 auto 16px auto;
+            box-shadow: 0 2px 6px rgba(107, 138, 71, 0.1);
+            font-family: 'Open Sans', sans-serif;
+            color: #2b2b2b;
+            font-size: 13px;
+            line-height: 1.2;
+        }
+
+        #contact h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 18px;
+            color: #4b3a30;
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        #contact ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        #contact li {
+            margin-bottom: 8px;
+        }
+
+        #contact li strong {
+            display: block;
+            font-weight: 700;
+            margin-bottom: 2px;
+            font-size: 13px;
+        }
+
+        #contact a {
+            color: var(--accent);
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 13px;
+        }
+
+        #contact a:hover {
+            color: #4b632a;
+        }
+
+        #memories {
+            padding: 20px;
+            background: #f6efe6;
+            /* soft background */
+        }
+
+        #memories h2 {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            color: #4b3a30;
+            margin-bottom: 16px;
+            text-align: center;
+        }
+
+        #photoUpload {
+            display: block;
+            width: 100%;
+            margin-bottom: 12px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #photoGallery {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+
+        #photoGallery figure {
+            margin: 0;
+            background: #fff7f0;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        #photoGallery img {
+            width: 100%;
+            height: 140px;
+            object-fit: cover;
+            display: block;
+            border-radius: 8px 8px 0 0;
+        }
+
+        #photoGallery figcaption {
+            font-size: 14px;
+            color: #85766a;
+            padding: 6px 8px;
+            text-align: center;
+        }
+
+        /* Responsive for smaller screens */
+        @media (max-width: 480px) {
+            #photoGallery {
+                grid-template-columns: 1fr;
+                /* one column on small devices */
+            }
+
+            #memories h2 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>संगमपूर मित्रांचे ब्लॉग</header>
+
+    <nav>
+        <a href="#about">गावाबद्दल</a>
+        <a href="#posts">कथा आणि फोटो</a>
+        <a href="#videos">व्हिडिओ</a>
+        <a href="#contact">संपर्क</a>
+    </nav>
+
+
+
+    <section id="friends">
+
+        <p>या वेबसाईटची निर्मिती करण्यात मदत करणारे</p>
+        <div class="friends-grid">
+            <div class="friend">
+                <img src="ritya.jpg" alt="रितेश" />
+                <div class="friend-name">रितेश</div>
+            </div>
+            <div class="friend">
+                <img src="bady.jpg" alt="मोहन" />
+                <div class="friend-name">मोहन</div>
+            </div>
+            <div class="friend">
+                <img src="kt.jpg" alt="केतन" />
+                <div class="friend-name">केतन</div>
+            </div>
+
+
+            <div class="friend">
+                <img src="me.jpg" alt="मयूर" />
+                <div class="friend-name">मयूर</div>
+            </div>
+            <div class="friend">
+                <img src="sond.jpg" alt="सार्थक" />
+                <div class="friend-name">सार्थक</div>
+            </div>
+            <div class="friend">
+                <img src="chi.jpg" alt="उमेश" />
+                <div class="friend-name">उमेश</div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About village -->
+    <section id="about">
+        <h2>गावाबद्दल</h2>
+        <p>संगमपूर हे आमचं आवडतं गाव आहे जिथे आम्ही वाढलो आहोत. या वेबसाईटवर आम्ही आमच्या आठवणी, फोटो, व्हिडिओ आणि कथा
+            शेअर करू.</p>
+        <img src="gav.png" alt="गावाचे निसर्ग फोटो" />
+    </section>
+
+    <!-- Blog posts -->
+    <section id="posts">
+
+
+        <!-- एक ब्लॉग पोस्ट (तुम्ही पुढे याप्रमाणे वाढवू शकता) -->
+        <article class="post">
+            <img src="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=400&auto=format&fit=crop"
+                alt="सण आणि उत्सव" />
+            <div class="meta">
+
+            </div>
+        </article>
+    </section>
+    <!-- मित्र परिचय सेक्शन -->
+
+    <!-- मित्र परिचय सेक्शन -->
+
+
+
+
+    <!-- Videos section -->
+    <section id="videos" style="padding: 20px;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #4b3a30; margin-bottom: 16px;">
+            व्हिडिओ
+        </h2>
+
+        <!-- Upload button for videos -->
+        <input type="file" id="videoUpload" accept="video/*" multiple style="margin-bottom: 12px; width: 100%;" />
+
+        <!-- Existing videos -->
+        <div class="video-wrapper">
+            <video id="video1" controls
+                poster="https://images.unsplash.com/photo-1505144808419-195fbee7a8e5?q=80&w=400&auto=format&fit=crop"
+                style="width: 100%; border-radius: 8px; margin-bottom: 12px;">
+                <source src="gavid.mp4" type="video/mp4" />
+                तुमचा ब्राऊजर व्हिडिओ प्ले करत नाही.
+            </video>
+        </div>
+
+        <div class="video-wrapper">
+            <video id="video2" controls
+                poster="https://images.unsplash.com/photo-1501785888041-af3ef285b470?q=80&w=400&auto=format&fit=crop"
+                style="width: 100%; border-radius: 8px; margin-bottom: 12px;">
+                <source src="video2.mp4" type="video/mp4" />
+                तुमचा ब्राऊजर व्हिडिओ प्ले करत नाही.
+            </video>
+        </div>
+
+        <!-- Container for uploaded videos -->
+        <div id="uploadedVideos"></div>
+    </section>
+
+    <section id="memories" style="padding: 20px;">
+        <h2 style="font-family: 'Playfair Display', serif; font-size: 28px; color: #4b3a30; margin-bottom: 16px;">
+            Gallery
+        </h2>
+
+        <!-- Upload button -->
+        <input type="file" id="photoUpload" accept="image/*" multiple style="margin-bottom: 12px;" />
+
+        <div id="photoGallery" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px;">
+            <!-- Existing photos -->
+            <figure style="margin: 0;">
+                <img src="maka.jpg" alt="photo"
+                    style="width: 100%; border-radius: 8px; object-fit: cover; height: 140px;">
+                <figcaption style="font-size: 14px; color: #85766a; margin-top: 6px;"></figcaption>
+            </figure>
+            <figure style="margin: 0;">
+                <img src="kida.jpg" alt="photo"
+                    style="width: 100%; border-radius: 8px; object-fit: cover; height: 140px;">
+                <figcaption style="font-size: 14px; color: #85766a; margin-top: 6px;"></figcaption>
+            </figure>
+            <figure style="margin: 0;">
+                <img src="name.jpg" alt="photo"
+                    style="width: 100%; border-radius: 8px; object-fit: cover; height: 140px;">
+                <figcaption style="font-size: 14px; color: #85766a; margin-top: 6px;"></figcaption>
+            </figure>
+            <figure style="margin: 0;">
+                <img src="dog.jpg" alt="photo"
+                    style="width: 100%; border-radius: 8px; object-fit: cover; height: 140px;">
+                <figcaption style="font-size: 14px; color: #85766a; margin-top: 6px;"></figcaption>
+            </figure>
+        </div>
+    </section>
+
+
+
+
+
+
+    <footer>© २०२५ संगमपूर मित्रांचे ब्लॉग</footer>
+
+    <script>
+
+
+        const videoUpload = document.getElementById('videoUpload');
+        const uploadedVideos = document.getElementById('uploadedVideos');
+
+        videoUpload.addEventListener('change', function () {
+            const files = Array.from(this.files);
+
+            files.forEach(file => {
+                const url = URL.createObjectURL(file);
+
+                // Create video element
+                const videoWrapper = document.createElement('div');
+                videoWrapper.className = 'video-wrapper';
+                videoWrapper.style.marginBottom = '12px';
+
+                const video = document.createElement('video');
+                video.controls = true;
+                video.style.width = '100%';
+                video.style.borderRadius = '8px';
+
+                const source = document.createElement('source');
+                source.src = url;
+                source.type = file.type;
+
+                video.appendChild(source);
+                video.textContent = 'तुमचा ब्राऊजर व्हिडिओ प्ले करत नाही.';
+
+                videoWrapper.appendChild(video);
+                uploadedVideos.appendChild(videoWrapper);
+            });
+
+            // Clear input so same files can be uploaded again if needed
+            this.value = '';
+        });
+
+
+
+        const photoUpload = document.getElementById('photoUpload');
+        const photoGallery = document.getElementById('photoGallery');
+
+        photoUpload.addEventListener('change', function (event) {
+            const files = event.target.files;
+            for (let file of files) {
+                if (!file.type.startsWith('image/')) continue;
+
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    // Create new figure and img elements
+                    const figure = document.createElement('figure');
+                    figure.style.margin = '0';
+
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    img.alt = "Uploaded photo";
+                    img.style.width = '100%';
+                    img.style.borderRadius = '8px';
+                    img.style.objectFit = 'cover';
+                    img.style.height = '140px';
+
+                    figure.appendChild(img);
+
+                    // Optional: Add empty caption for consistency
+                    const caption = document.createElement('figcaption');
+                    caption.style.fontSize = '14px';
+                    caption.style.color = '#85766a';
+                    caption.style.marginTop = '6px';
+                    figure.appendChild(caption);
+
+                    photoGallery.appendChild(figure);
+                };
+                reader.readAsDataURL(file);
+            }
+            // Clear input after processing
+            photoUpload.value = '';
+        });
+
+
+
+
+
+
+
+
+        function setupVideoControls(videoId, pauseBtnId, playBtnId) {
+            const video = document.getElementById(videoId);
+            const pauseBtn = document.getElementById(pauseBtnId);
+            const playBtn = document.getElementById(playBtnId);
+
+            pauseBtn.addEventListener('click', () => {
+                video.pause();
+                pauseBtn.style.display = 'none';
+                playBtn.style.display = 'inline-flex';
+            });
+
+            playBtn.addEventListener('click', () => {
+                video.play();
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'inline-flex';
+            });
+
+            video.addEventListener('play', () => {
+                playBtn.style.display = 'none';
+                pauseBtn.style.display = 'inline-flex';
+            });
+
+            video.addEventListener('pause', () => {
+                pauseBtn.style.display = 'none';
+                playBtn.style.display = 'inline-flex';
+            });
+        }
+
+        setupVideoControls('video1', 'pause1', 'play1');
+        setupVideoControls('video2', 'pause2', 'play2');
+
+    </script>
+
+</body>
+
+</html>
